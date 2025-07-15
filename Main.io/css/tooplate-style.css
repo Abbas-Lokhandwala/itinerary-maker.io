@@ -132,7 +132,12 @@ p {
 	height: 515px;
 }
 
-#tm-section-5 { background-image: url('../img/bgnews.png'); }
+#tm-section-5 { 
+	background-image: url('../img/bgnews.png'); 
+	background-size: cover;
+  	background-position: center;
+  	position: relative;
+}
 
 #tm-section-6 {
 	background-image: url('../img/bg-img-3.jpg');
@@ -140,6 +145,14 @@ p {
 	padding-top: 120px;
 	padding-bottom: 60px;
 }
+
+#tm-section-5 .tm-overlay {
+  background-color: rgba(2, 0, 0, 0.4); /* dark overlay */
+  position: relative;
+  z-index: 2;
+  padding: 60px 0;
+}
+
 
 .tm-bg-img {
 	background-position: center center;

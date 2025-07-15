@@ -226,3 +226,18 @@
   height: 250px; /* Adjust height to match layout */
   object-fit: cover;
 }
+
+  .tm-media-1.collapsed {
+    max-height: 120px;
+    overflow: hidden;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .tm-media-1.expanded {
+    max-height: 1000px; /* large enough to show full content */
+    opacity: 1;
+    cursor: default;
+    transition: all 0.3s ease;
+  }
