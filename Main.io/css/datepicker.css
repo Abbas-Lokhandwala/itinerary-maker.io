@@ -241,3 +241,13 @@
     cursor: default;
     transition: all 0.3s ease;
   }
+
+  .tm-media-1.collapsed p {
+  display: none;
+  height: 0;
+  overflow: hidden;
+}
+
+.tm-media-1.expanded p {
+  display: block;
+}

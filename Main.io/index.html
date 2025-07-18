@@ -229,6 +229,8 @@ https://www.tooplate.com/view/2095-level
                     Your browser does not support the video tag.
                 </video>
             -->
+
+            <!--
                 <div class="tm-section tm-section-pad tm-bg-img" id="tm-section-5">
                     <div class="tm-overlay">                                                        
                         <div class="container ie-h-align-center-fix">
@@ -266,7 +268,27 @@ https://www.tooplate.com/view/2095-level
                         </div>
                     </div>
                 </div>          
-            
+            -->
+            <!-- News Section -->
+            <section id="news-section" class="tm-section tm-section-pad tm-bg-img">
+            <div class="tm-overlay">
+                <div class="container ie-h-align-center-fix">
+                <div class="row tm-flex-align-center">
+                    <div class="col-lg-3 col-xl-3 tm-media-title-container">
+                    <h2 class="text-uppercase tm-section-title-2" style="color: wheat; font-size: 2rem;">GLOBAL TRAVEL NEWS</h2>
+                    <h3 class="tm-color-primary tm-font-semibold tm-section-subtitle-2" style="color: whitesmoke;">Stay updated with the latest headlines from around the world.</h3>
+                    </div>
+
+                    <div class="col-lg-9 col-xl-9 mt-0 mt-sm-3">
+                    <div class="ml-auto tm-bg-white-shadow tm-pad tm-media-container" id="news-container">
+                        <!-- JavaScript will inject news articles here -->
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </section>
+
             <div class="tm-section tm-section-pad tm-bg-img tm-position-relative" id="tm-section-6">
                 <div class="container ie-h-align-center-fix">
                     <div class="row justify-content-center">
@@ -306,6 +328,13 @@ https://www.tooplate.com/view/2095-level
         </div>
         
         <!-- load JS files -->
+        <script src="js/news.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+            fetchTravelNews();
+            });
+        </script>
+
         <script src="js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->
         <script src="js/popper.min.js"></script>                    <!-- https://popper.js.org/ -->       
         <script src="js/bootstrap.min.js"></script>                 <!-- https://getbootstrap.com/ -->
