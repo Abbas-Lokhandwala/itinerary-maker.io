@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Itinerary Preview</title>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="tooplate-style.css">
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .card {
+      transition: box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    .card-body {
+      display: none;
+    }
+    .card.expanded .card-body {
+      display: block;
+    }
+    .add-btn {
+      font-size: 1.1rem;
+      padding: 0.6rem 1.4rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <h2 class="text-center mb-4">Your Travel Itinerary</h2>
+
+    <div id="itinerary-container">
+      <!-- Cards will go here -->
+    </div>
+
+    <div class="text-center mt-4">
+      <button class="btn btn-primary add-btn" onclick="addDay()">+ Add Day</button>
+    </div>
+  </div>
+
+  <script>
+    let dayCount = 0;
+
+    function createCard(dayNum, data) {
+      const container = document.getElementById("itinerary-container");
+
+      const card = document.createElement("div");
+      card.className = "card mb-3";
+      card.onclick = () => card.classList.toggle("expanded");
+
+      card.innerHTML = `
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Day ${dayNum}</h5>
+        </div>
+        <div class="card-body">
+          <h6>Morning</h6>
+          <p>${data?.morning || "Visit a temple and enjoy local breakfast."}</p>
+          <h6>Afternoon</h6>
+          <p>${data?.afternoon || "Explore museums or relax at the beach."}</p>
+          <h6>Evening</h6>
+          <p>${data?.evening || "Dinner at a local restaurant and evening walk."}</p>
+        </div>
+      `;
+
+      container.appendChild(card);
+    }
+
+    function addDay() {
+      dayCount++;
+      createCard(dayCount);
+    }
+
+    // Add 2 dummy days initially
+    addDay();
+    addDay();
+  </script>
+</body>
+</html>
