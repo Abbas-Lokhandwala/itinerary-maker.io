@@ -494,24 +494,34 @@ https://www.tooplate.com/view/2095-level
         </script>
 
         <script>
-        function redirectToItinerary(event) {
-            event.preventDefault(); // prevent form from actually submitting
+            function redirectToItinerary(event) {
+                event.preventDefault(); // stop form for now
 
-            // Optional: collect and store form data
-            const city = document.getElementById('inputCity').value;
-            const checkIn = document.getElementById('inputCheckIn').value;
-            const checkOut = document.getElementById('inputCheckOut').value;
-            const adults = document.getElementById('adult').value;
-            const children = document.getElementById('children').value;
-            const transport = document.getElementById('transport').value;
+                const requiredFields = ['inputCity', 'inputCheckIn', 'inputCheckOut', 'adult', 'children', 'transport'];
+                let allFilled = true;
 
-            // Save to localStorage or sessionStorage if needed
-            // localStorage.setItem("city", city); etc.
+                requiredFields.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (!el || el.value.trim() === '') {
+                        el.classList.add('is-invalid');
+                        allFilled = false;
+                    } else {
+                        el.classList.remove('is-invalid');
+                    }
+                });
 
-            // Redirect
-            window.location.href = 'itinerary.html';
+                if (!allFilled) return; // if missing fields, don't go further
+
+                // optional: store values if needed
+                // const city = document.getElementById('inputCity').value;
+                // localStorage.setItem('city', city);
+
+                // redirect
+                window.location.href = 'itinerary.html';
         }
         </script>
+
+
 
 
 </body>

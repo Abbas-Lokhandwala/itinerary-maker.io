@@ -251,3 +251,7 @@
 .tm-media-1.expanded p {
   display: block;
 }
+
+.is-invalid {
+  border: 1px solid #dc3545 !important;
+}
