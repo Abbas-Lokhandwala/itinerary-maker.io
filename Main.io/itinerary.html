@@ -39,9 +39,13 @@
     }
     .tm-itinerary-section {
       display: flex;
-      padding: 80px 0 40px;
+      padding: 60px 40px;
       background-color: #f0f8ff;
+      gap: 30px;
+      border-radius: 20px; /* 👈 Add this */
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.05); /* optional: soft outer glow */
     }
+
     .day-list {
       width: 280px;
       flex-shrink: 0;
@@ -63,7 +67,10 @@
       padding: 20px;
       background: white;
       border-left: 2px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
     }
+
     .day-details h4 {
       color: #3498db;
     }
@@ -73,7 +80,7 @@
       margin-top: 20px;
     }
     .main-content {
-      margin-top: 40px; /* Adjust as needed */
+      margin-top: 0px; /* Adjust as needed */
     }
 
     .navbar-custom {
@@ -161,6 +168,24 @@
       color: white !important;
       text-decoration: none;
     }
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .itinerary-heading {
+      margin-top: 100px;
+      margin-bottom: 20px;
+    }
+    body {
+      background-image: url('img/bgitinerary.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: repeat-y;
+      background-position: center top;
+    }
+
+    
+
 
 
   </style>
@@ -168,22 +193,44 @@
 <body>
 <!-- Custom Navbar -->
 <!-- Custom Navbar -->
-<div class="tm-top-bar-bg"></div>
-<div class="tm-top-bar" id="tm-top-bar" style="margin-bottom: 30px;">
-  <div class="container">
-    <div class="row align-items-center">
-      <nav class="navbar navbar-expand-lg navbar-light w-100 d-flex justify-content-between align-items-center" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
-        <a class="navbar-brand d-flex align-items-center" href="index.html" style="font-size: 1.8rem;">
-          <img src="img/logo.png" alt="Site logo" style="height: 48px; margin-right: 12px;">
-          <strong>Itinerary-maker.io</strong>
-        </a>
-        <a class="nav-link tm-nav-link" href="index.html">
-          <i class="fa fa-arrow-left mr-2"></i> BACK TO HOME
-        </a>
-      </nav>
+  <div class="tm-top-bar-bg"></div>
+  <div class="tm-top-bar" id="tm-top-bar" style="margin-bottom: 30px;">
+    <div class="container">
+      <div class="row align-items-center">
+        <nav class="navbar navbar-expand-lg navbar-light w-100 d-flex justify-content-between align-items-center" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
+          <a class="navbar-brand d-flex align-items-center" href="index.html" style="font-size: 1.8rem;">
+            <img src="img/logo.png" alt="Site logo" style="height: 48px; margin-right: 12px;">
+            <strong>Itinerary-maker.io</strong>
+          </a>
+          <a class="nav-link tm-nav-link" href="index.html">
+            <i class="fa fa-arrow-left mr-2"></i> BACK TO HOME
+          </a>
+        </nav>
+      </div>
     </div>
   </div>
-</div>
+
+  <div class="itinerary-heading text-center" style="
+    margin-top: 200px;
+    margin-bottom: 0px;
+  ">
+    <div style="
+      display: inline-block;
+      background: white;
+      padding: 20px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    ">
+      <a href="#day-1-card" class="tm-color-primary tm-font-semibold" style="
+        font-size: 3rem;
+        text-decoration: none;
+        display: inline-block;
+      ">
+        Trip Overview
+      </a>
+    </div>
+  </div>
+
 
 
 
