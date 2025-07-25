@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Itinerary Preview</title>
+  <link rel="icon" href="img/logo.png" type="image/png">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/tooplate-style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+      background-color: #f0f8ff;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .tm-top-bar-bg {
+      height: 10px;
+      background-color: #ffffff;
+    }
+    .tm-top-bar {
+      background-color: #ffffff;
+      padding: 10px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .tm-top-bar .navbar-brand {
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #333;
+    }
+    .tm-top-bar .navbar-brand img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .tm-top-bar .nav-link {
+      font-weight: 600;
+      color: #3498db;
+    }
+    .tm-itinerary-section {
+      display: flex;
+      padding: 60px 40px;
+      background-color: #f0f8ff;
+      gap: 30px;
+      border-radius: 20px; /* 👈 Add this */
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.05); /* optional: soft outer glow */
+    }
+
+    .day-list {
+      width: 280px;
+      flex-shrink: 0;
+      padding: 20px;
+    }
+    .day-list .card {
+      margin-bottom: 15px;
+      transition: box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .day-list .card:hover {
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    .day-list .card.expanded {
+      background-color: #e8f0fe;
+    }
+    .day-details {
+      flex-grow: 1;
+      padding: 20px;
+      background: white;
+      border-left: 2px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .day-details h4 {
+      color: #3498db;
+    }
+    .add-btn {
+      font-size: 1.1rem;
+      padding: 0.6rem 1.4rem;
+      margin-top: 20px;
+    }
+    .main-content {
+      margin-top: 0px; /* Adjust as needed */
+    }
+
+    .navbar-custom {
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-custom img {
+      height: 45px;
+      margin-right: 10px;
+    }
+
+    .navbar-custom .brand {
+      font-size: 1.6rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      color: #333;
+    }
+
+    .back-link {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #3498db;
+      text-decoration: none;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .back-link:hover {
+      color: #1d6fa5;
+      text-decoration: underline;
+    }
+    .tm-nav-link-hover {
+      color: black;
+      transition: background-color 0.3s, color 0.3s;
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .tm-nav-link-hover:hover {
+      background-color: #f04e4e;
+      color: white !important;
+    }
+    .tm-top-bar {
+      background-color: #fff;
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-brand img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .navbar-nav .nav-link {
+      padding: 12px 25px;
+      font-weight: 600;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .tm-nav-item-hover:hover .nav-link {
+      background-color: #e74c3c;
+      color: white !important;
+      border-radius: 3px;
+    }
+    .tm-nav-link {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #3498db;
+      padding: 10px 18px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .tm-nav-link:hover {
+      background-color: #e74c3c;
+      color: white !important;
+      text-decoration: none;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .itinerary-heading {
+      margin-top: 100px;
+      margin-bottom: 20px;
+    }
+    body {
+      background-image: url('img/bgitinerary.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: repeat-y;
+      background-position: center top;
+    }
+
+    
+
+
+
+  </style>
+</head>
+<body>
+<!-- Custom Navbar -->
+<!-- Custom Navbar -->
+  <div class="tm-top-bar-bg"></div>
+  <div class="tm-top-bar" id="tm-top-bar" style="margin-bottom: 30px;">
+    <div class="container">
+      <div class="row align-items-center">
+        <nav class="navbar navbar-expand-lg navbar-light w-100 d-flex justify-content-between align-items-center" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
+          <a class="navbar-brand d-flex align-items-center" href="index.html" style="font-size: 1.8rem;">
+            <img src="img/logo.png" alt="Site logo" style="height: 48px; margin-right: 12px;">
+            <strong>Itinerary-maker.io</strong>
+          </a>
+          <a class="nav-link tm-nav-link" href="index.html">
+            <i class="fa fa-arrow-left mr-2"></i> BACK TO HOME
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="itinerary-heading text-center" style="
+    margin-top: 200px;
+    margin-bottom: 0px;
+  ">
+    <div style="
+      display: inline-block;
+      background: white;
+      padding: 20px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    ">
+      <a href="#day-1-card" class="tm-color-primary tm-font-semibold" style="
+        font-size: 3rem;
+        text-decoration: none;
+        display: inline-block;
+      ">
+        Trip Overview
+      </a>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="main-content container py-5">
+    <div class="container-fluid tm-itinerary-section">
+      <div class="day-list" id="itinerary-container">
+        <!-- Day cards go here -->
+      </div>
+
+      <div class="day-details" id="day-detail">
+        <h4 id="day-title">Day 1</h4>
+        <h6>🌅 Morning</h6>
+        <p id="morning-text">Visit a temple and enjoy local breakfast.</p>
+        <h6>🌞 Afternoon</h6>
+        <p id="afternoon-text">Explore museums or relax at the beach.</p>
+        <h6>🌙 Evening</h6>
+        <p id="evening-text">Dinner at a local restaurant and evening walk.</p>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary add-btn" onclick="addDay()">+ Add Day</button>
+    </div>
+  </div>
+  <script>
+    let imageList = JSON.parse(sessionStorage.getItem("unsplashImages") || "[]");
+    const fullItinerary = JSON.parse(sessionStorage.getItem("itineraryData") || "[]");
+    async function fetchSingleImage(city) {
+      const accessKey = "rQdzV_q30bN4NdAPmQOKXBZRFuOw4Tm7X0mOGJmjQUA";
+      const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(city)}&per_page=1`;
+
+      try {
+        const res = await fetch(url, {
+          headers: {
+            Authorization: `Client-ID ${accessKey}`
+          }
+        });
+
+        const data = await res.json();
+        const img = data.results?.[0];
+        return {
+          url: img?.urls?.regular || "img/logo.png",
+          alt: img?.alt_description || city
+        };
+      } catch (err) {
+        console.error("🔻 Unsplash image fallback triggered:", err);
+        return {
+          url: "img/logo.png",
+          alt: city
+        };
+      }
+    }
+
+    function createCard(dayObj, index) {
+      const container = document.getElementById("itinerary-container");
+      const card = document.createElement("div");
+      card.className = "card p-2";
+
+      const imageUrl = imageList[index]?.url || "img/logo.png";
+      const summary = dayObj.summary || [
+        dayObj.morning?.summary,
+        dayObj.afternoon?.summary,
+        dayObj.evening?.summary
+      ].filter(Boolean).join(" · ");
+
+      card.innerHTML = `
+        <img src="${imageUrl}" class="card-img-top" alt="Day ${index + 1}" style="height: 140px; object-fit: cover;">
+        <div class="card-body text-center">
+          <h6 class="card-title">Day ${index + 1}</h6>
+          <p class="text-primary font-weight-semibold" style="font-size: 0.85rem; margin-top: 8px;">${summary}</p>
+        </div>
+      `;
+
+      card.addEventListener("click", () => {
+        document.querySelectorAll(".day-list .card").forEach(c => c.classList.remove("expanded"));
+        card.classList.add("expanded");
+        showDetail(dayObj, index + 1);
+      });
+
+      container.appendChild(card);
+    }
+
+    function showDetail(dayObj, dayNum) {
+      document.getElementById("day-title").innerText = `Day ${dayNum}`;
+
+      document.getElementById("morning-text").innerHTML = `
+        <strong>Activity:</strong> ${dayObj.morning.activity}<br>
+        <strong>Location:</strong> ${dayObj.morning.location}<br>
+        <strong>What Makes It Special:</strong> ${dayObj.morning.why}<br>
+        <strong>Transportation:</strong> ${dayObj.morning.transportation}
+      `;
+
+      document.getElementById("afternoon-text").innerHTML = `
+        <strong>Activity:</strong> ${dayObj.afternoon.activity}<br>
+        <strong>Location:</strong> ${dayObj.afternoon.location}<br>
+        <strong>What Makes It Special:</strong> ${dayObj.afternoon.why}<br>
+        <strong>Transportation:</strong> ${dayObj.afternoon.transportation}
+      `;
+
+      document.getElementById("evening-text").innerHTML = `
+        <strong>Activity:</strong> ${dayObj.evening.activity}<br>
+        <strong>Location:</strong> ${dayObj.evening.location}<br>
+        <strong>What Makes It Special:</strong> ${dayObj.evening.why}<br>
+        <strong>Transportation:</strong> ${dayObj.evening.transportation}
+      `;
+    }
+
+    async function addDay() {
+      showLoader();
+      const city = sessionStorage.getItem("itineraryCity");
+      const adults = parseInt(sessionStorage.getItem("adultCount") || "2");
+      const children = parseInt(sessionStorage.getItem("childCount") || "0");
+
+      const checkIn = new Date(sessionStorage.getItem("checkInDate"));
+      const currentCheckOut = new Date(sessionStorage.getItem("checkOutDate"));
+      const newCheckOut = new Date(currentCheckOut);
+      newCheckOut.setDate(currentCheckOut.getDate() + 1);
+
+      try {
+        const res = await fetch("https://itinerary-backend-1.onrender.com/api/itinerary", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            city,
+            checkIn: checkIn.toISOString().split("T")[0],
+            checkOut: newCheckOut.toISOString().split("T")[0],
+            adults,
+            children
+          })
+        });
+
+        const itinerary = await res.json();
+        const newDay = itinerary[itinerary.length - 1];
+
+        const newImage = await fetchSingleImage(city);
+        imageList = JSON.parse(sessionStorage.getItem("unsplashImages") || "[]");
+        imageList.push(newImage);
+        sessionStorage.setItem("unsplashImages", JSON.stringify(imageList));
+
+        fullItinerary.push(newDay);
+        sessionStorage.setItem("itineraryData", JSON.stringify(fullItinerary));
+        sessionStorage.setItem("checkOutDate", newCheckOut.toISOString());
+
+        createCard(newDay, fullItinerary.length - 1);
+      } catch (err) {
+        console.error("Error adding new day:", err);
+        alert("Failed to add a day. Try again.");
+      } finally {
+        hideLoader();
+      }
+    }
+
+
+
+
+    fullItinerary.forEach((dayObj, index) => {
+      createCard(dayObj, index);
+      if (index === 0) showDetail(dayObj, 1);
+    });
+
+
+            function showLoader() {
+            const overlay = document.getElementById("loading-overlay");
+            if (overlay) overlay.style.display = "flex";
+            }
+
+
+            function hideLoader() {
+            const overlay = document.getElementById("loading-overlay");
+            if (overlay) overlay.style.display = "none";
+            }
+
+  </script>
+
+  <div id="loading-overlay" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 9999;
+  ">
+    <div style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      max-width: 90%;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    ">
+      <video 
+        src="img/loader.mp4" 
+        autoplay 
+        muted 
+        loop 
+        playsinline 
+        style="width: 100%; height: auto; border-radius: 8px;"
+      ></video>
+    </div>
+  </div>
+
+
+
+</body>
+</html>

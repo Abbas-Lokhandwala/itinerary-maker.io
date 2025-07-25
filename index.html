@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Itinerary-maker.io</title>
+    <link rel="icon" href="img/logo.png" type="image/png">
+<!--
+
+Tooplate 2095 Level
+
+https://www.tooplate.com/view/2095-level
+
+-->
+    <!-- load stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">                <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="css/datepicker.css"/>
+    <link rel="stylesheet" href="css/tooplate-style.css">                                   <!-- Templatemo style -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
+</head>
+
+    <body>
+        <div class="tm-main-content" id="top">
+            <div class="tm-top-bar-bg"></div>
+            <div class="tm-top-bar" id="tm-top-bar">
+                <!-- Top Navbar -->
+                <div class="container">
+                    <div class="row">
+                        
+                        <nav class="navbar navbar-expand-lg narbar-light">
+                            <a class="navbar-brand mr-auto" href="#">
+                                <img src="img/logo.png" alt="Site logo">
+                                Itinery-maker.io
+                            </a>
+                            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                                <ul class="navbar-nav ml-auto">
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="#top">Home <span class="sr-only">(current)</span></a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="#tm-section-4">Trending Destinations</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="#tm-section-5">Travel News</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="#tm-section-6">Contact Us</a>
+                                  </li>
+                                </ul>
+                            </div>                            
+                        </nav>            
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tm-section tm-bg-img" id="tm-section-1">
+                <div class="tm-bg-white ie-container-width-fix-2">
+                    <div class="container ie-h-align-center-fix">
+                        <div class="row">
+                            <div class="col-xs-12 ml-auto mr-auto ie-container-width-fix">
+                                <form class="tm-search-form tm-section-pad-2" onsubmit="redirectToItinerary(event)">
+                                    <div class="form-row tm-search-form-row">
+                                        <div class="form-group tm-form-element tm-form-element-100">
+                                            <i class="fa fa-map-marker fa-2x tm-form-element-icon"></i>
+                                            <input name="city" type="text" class="form-control" id="inputCity" placeholder="Type your destination...">
+                                        </div>
+                                        <div class="form-group tm-form-element tm-form-element-50">
+                                            <i class="fa fa-calendar fa-2x tm-form-element-icon"></i>
+                                            <input name="check-in" type="text" class="form-control" id="inputCheckIn" placeholder="Start Date">
+                                        </div>
+                                        <div class="form-group tm-form-element tm-form-element-50">
+                                            <i class="fa fa-calendar fa-2x tm-form-element-icon"></i>
+                                            <input name="check-out" type="text" class="form-control" id="inputCheckOut" placeholder="End Date">
+                                        </div>
+                                    </div>
+                                    <div class="form-row tm-search-form-row">
+                                        <div class="form-group tm-form-element tm-form-element-2">                                            
+                                            <input type="number" name="adult" class="form-control" id="adult" placeholder="Adult" min="0" max="10">
+                                            <i class="fa fa-2x fa-user tm-form-element-icon"></i>
+                                        </div>
+
+                                        <div class="form-group tm-form-element tm-form-element-2">                                            
+                                            <input type="number" name="children" class="form-control" id="children" placeholder="Children" min="0" max="10">
+                                            <i class="fa fa-user tm-form-element-icon tm-form-element-icon-small"></i>
+                                        </div>
+
+                                        <div class="form-group tm-form-element tm-form-element-2">
+                                            <select name="transport" class="form-control tm-select" id="transport">
+                                                <option value="" disabled selected hidden>Select Mode of Transport</option>
+                                                <option value="car">Car</option>
+                                                <option value="bus">Public Transport</option>
+                                                <option value="bicycle">Bicycle / Walking</option>
+                                            </select>
+                                            <i class="fa fa-2x fa-car tm-form-element-icon"></i>
+                                        </div>
+
+                                        <div class="form-group tm-form-element tm-form-element-2">
+                                            <button type="submit" class="btn btn-primary tm-btn-search">Create Itinerary</button>
+                                        </div>
+                                      </div>
+                                      <div class="form-row clearfix pl-2 pr-2 tm-fx-col-xs">
+                                          <p class="tm-margin-b-0">Let’s turn your travel idea into a ready-to-go plan.</p>
+                                          <a href="#tm-section-6" class="ie-10-ml-auto ml-auto mt-1 tm-font-semibold tm-color-primary">Need Help?</a>
+                                      </div>
+                                </form>
+                            </div>                        
+                        </div>      
+                    </div>
+                </div>                  
+            </div>
+            
+            <div class="tm-section tm-section-pad tm-bg-gray" id="tm-section-4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                            <div class="tm-article-carousel">                            
+                                <article class="tm-bg-white mr-2 tm-carousel-item">
+                                    <img src="img/img-01.png" alt="Image" class="img-fluid" width="370 " height="262">
+                                    <div class="tm-article-pad">
+                                        <header><h3 class="text-uppercase tm-article-title-2">Reykjavík, Iceland</h3></header>
+                                        <p>Discover the magic of Reykjavík — take a dip in the Blue Lagoon, admire the views from Hallgrímskirkja Church, and chase the Northern Lights for an unforgettable arctic adventure.</p>
+                                        <a href="#" onclick="setDestination('Reykjavík, Iceland')" class="text-uppercase btn-primary tm-btn-primary">Experience Iceland</a>
+                                    </div>                                
+                                </article>                    
+                                <article class="tm-bg-white mr-2 tm-carousel-item">
+                                    <img src="img/img-02.png" alt="Image" class="img-fluid" width="370 " height="262">
+                                    <div class="tm-article-pad">
+                                        <header><h3 class="text-uppercase tm-article-title-2">Istanbul, Turkey</h3></header>
+                                        <p>Dive into Istanbul’s rich culture — stand in awe at the Hagia Sophia, shop your way through the Grand Bazaar, and cruise the Bosphorus for breathtaking views.</p>
+                                        <a href="#" onclick="setDestination('Istanbul, Turkey')" class="text-uppercase btn-primary tm-btn-primary">Explore Istanbul</a>
+                                    </div>                                
+                                </article>
+                                <article class="tm-bg-white mr-2 tm-carousel-item">
+                                    <img src="img/image-03.png" alt="Image" class="img-fluid" width="370 " height="262">
+                                    <div class="tm-article-pad">
+                                        <header><h3 class="text-uppercase tm-article-title-2">Utah, USA</h3></header>
+                                        <p>From the red-rock of Arches and Zion to the surreal landscapes of Canyon and Canyonlands. Explore its "Mighty 5" national parks and stargaze under the clearest skies in the U.S.</p>
+                                        <a href="#" onclick="setDestination('Utah, USA')" class="text-uppercase btn-primary tm-btn-primary">Plan My Utah Journey</a>
+                                    </div>                                
+                                </article>
+                                <article class="tm-bg-white mr-2 tm-carousel-item">
+                                    <img src="img/image-04.png" alt="Image" class="img-fluid" width="370 " height="262">
+                                    <div class="tm-article-pad">
+                                        <header><h3 class="text-uppercase tm-article-title-2">Kerala, India</h3></header>
+                                        <p>Cruise the backwaters of Alleppey, wander tea plantations in Munnar, hike the Western Ghats, and relax on Kovalam Beach — Kerala is a lush escape full of natural and cultural richness.</p>
+                                        <a href="#" onclick="setDestination('Kerala, India')" class="text-uppercase btn-primary tm-btn-primary">Start My Kerala Getaway</a>
+                                    </div>                                
+                                </article>                    
+                                <article class="tm-bg-white mr-2 tm-carousel-item">
+                                    <img src="img/image-05.png" alt="Image" class="img-fluid" width="370 " height="262">
+                                    <div class="tm-article-pad">
+                                        <header><h3 class="text-uppercase tm-article-title-2">Lisbon, Portugal</h3></header>
+                                        <p>Ride the famous tram through Alfama, visit Belém Tower, explore LX Factory for indie vibes, and soak in sunset views from Miradouro da Senhora do Monte.</p>
+                                        <a href="#" onclick="setDestination('Lisbon, Portugal')" class="text-uppercase btn-primary tm-btn-primary">Unlock Lisbon’s Magic</a>
+                                    </div>                                
+                                </article>
+                                <article class="tm-bg-white tm-carousel-item">
+                                    <img src="img/image-06.png" alt="Image" class="img-fluid" width="370 " height="262">
+                                    <div class="tm-article-pad">
+                                        <header><h3 class="text-uppercase tm-article-title-2">Queensland, Australia</h3></header>
+                                        <p>Snorkel the Great Barrier Reef, relax on Whitehaven Beach, and explore Brisbane’s riverfront culture — Queensland is Australia's tropical crown jewel.</p>
+                                        <a href="#" onclick="setDestination('Queensland, Australia')" class="text-uppercase btn-primary tm-btn-primary">Dive Into Queensland</a>
+                                    </div>                                
+                                </article>
+                            </div>    
+                        </div>
+                        
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-recommended-container">
+                            <div class="tm-bg-white">
+                                <div class="tm-bg-primary tm-sidebar-pad">
+                                    <h3 class="tm-color-white tm-sidebar-title">This Week's Favorites</h3>
+                                    <p class="tm-color-white tm-margin-b-0 tm-font-light">These spots are heating up with travelers right now.</p>
+                                </div>
+                                <div class="tm-sidebar-pad-2">
+                                    <a href="#" onclick="setDestination('Kyoto, Japan')" class="media tm-media tm-recommended-item">
+                                        <img src="img/tn-img-01.jpg" alt="Image" width="95" height="80">
+                                        <div class="media-body tm-media-body tm-bg-gray">
+                                            <h4 class="text-uppercase tm-font-semibold tm-sidebar-item-title">Kyoto</h4>
+                                        </div>                                        
+                                    </a>
+                                    <a href="#" onclick="setDestination('Barcelona, Spain')" class="media tm-media tm-recommended-item">
+                                        <img src="img/tn-img-02.png" alt="Image" width="95" height="80">
+                                        <div class="media-body tm-media-body tm-bg-gray">
+                                            <h4 class="text-uppercase tm-font-semibold tm-sidebar-item-title">Barcelona</h4>
+                                        </div>
+                                    </a>
+                                    <a href="#" onclick="setDestination('Cape Town, South Africa')" class="media tm-media tm-recommended-item">
+                                        <img src="img/tn-img-03.png" alt="Image" width="95" height="80">
+                                        <div class="media-body tm-media-body tm-bg-gray">
+                                            <h4 class="text-uppercase tm-font-semibold tm-sidebar-item-title">Cape Town</h4>
+                                        </div>
+                                    </a>
+                                    <a href="#" onclick="setDestination('Vancouver, Canada')" class="media tm-media tm-recommended-item">
+                                        <img src="img/tn-img-04.png" alt="Image" width="95" height="80">
+                                        <div class="media-body tm-media-body tm-bg-gray">
+                                            <h4 class="text-uppercase tm-font-semibold tm-sidebar-item-title">Vancouver</h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+            <div class="tm-bg-video">
+                <div class="overlay">
+                    <i class="fa fa-5x fa-play-circle tm-btn-play"></i>
+                    <i class="fa fa-5x fa-pause-circle tm-btn-pause"></i>
+                </div>
+                <video controls="" loop="" class="tmVideo">
+                    <source src="videos/video.mp4" type="video/mp4">
+                    <source src="videos/video.ogg" type="video/ogg">
+                    Your browser does not support the video tag.
+                </video>
+            -->
+
+            
+                <div class="tm-section tm-section-pad tm-bg-img" id="tm-section-5">
+                    <div class="tm-overlay">                                                        
+                        <div class="container ie-h-align-center-fix">
+                            <div class="row tm-flex-align-center">
+                                <div class="col-xs-12 col-md-12 col-lg-3 col-xl-3 tm-media-title-container">
+                                    <h2 class="text-uppercase tm-section-title-2" style="color: wheat; font-size: 2rem; line-height: 1.2;">GLOBAL TRAVEL NEWS</h2>
+                                    <h3 class="tm-color-primary tm-font-semibold tm-section-subtitle-2" style="color: whitesmoke; font-size: 1rem; line-height: 1.5;">Stay updated with the latest headlines from around the world.</h3>
+                                </div>
+                                <div class="col-xs-12 col-md-12 col-lg-9 col-xl-9 mt-0 mt-sm-3">
+                                    <div class="ml-auto tm-bg-white-shadow tm-pad tm-media-container">
+                                    <article class="media tm-margin-b-20 tm-media-1 expanded" id="article-1">
+                                        <img src="img/news-01.png" alt="Image" width="280" height="264">
+                                        <div class="media-body tm-media-body-1 tm-media-body-v-center">
+                                        <h3 class="tm-font-semibold tm-color-primary tm-article-title-3">Japan Eases Visa Rules for Solo Travelers</h3>
+                                        <p>Japan is rolling out the red carpet for solo adventurers. With streamlined visa-free entry for more countries and expanded multilingual signage, navigating Tokyo’s bustling streets and Kyoto’s serene temples has never been easier. Whether you're soaking in an onsen in Hakone, hiking Mount Takao, or indulging in street food at Osaka’s Dotonbori, Japan now offers solo travelers a safer, smoother, and more welcoming experience. The government’s renewed focus on tourism infrastructure ensures better public transport support, helpful tourist centers, and cultural immersion opportunities.</p>
+                                        </div>                                
+                                    </article>
+                                    <article class="media tm-margin-b-20 tm-media-1 collapsed" id="article-2">
+                                        <img src="img/news-02.png" alt="Image" width="280" height="264">
+                                        <div class="media-body tm-media-body-1 tm-media-body-v-center">
+                                        <h3 class="tm-font-semibold tm-color-primary tm-article-title-3">Italy Introduces Digital Nomad Visa</h3>
+                                        <p>Italy has officially launched its Digital Nomad Visa for freelancers and remote workers. Eligible non-EU citizens can now live and work in Italy for up to a year, with an option to renew. Imagine coding from a Tuscan vineyard, hosting Zoom calls near the Colosseum, or wrapping your day with a stroll along the Amalfi Coast. The initiative aims to boost local economies, especially in lesser-known towns like Matera, Lecce, and Trento, with tax benefits and new coworking spaces.</p>
+                                        </div>                                
+                                    </article>
+                                    <article class="media tm-margin-b-20 tm-media-1 collapsed" id="article-3">
+                                        <img src="img/news-03.png" alt="Image" width="280" height="264">
+                                        <div class="media-body tm-media-body-1 tm-media-body-v-center">
+                                        <h3 class="tm-font-semibold tm-color-primary tm-article-title-3">Iceland Launches Midnight Sun Hiking Trails</h3>
+                                        <p>Iceland is inviting nature lovers to explore newly marked Midnight Sun Hiking Trails this summer. Trails through Þórsmörk, Landmannalaugar, and the scenic Laugavegur Trail are now accessible for night hikes under continuous daylight. The eco-tourism program includes guided tours, sustainable rest points, and wildlife conservation education. Travelers can also enjoy glacier views, geothermal springs, and rare encounters with Icelandic wildlife, all under the glowing midnight sun.</p>
+                                        </div>                                
+                                    </article>
+                                    </div>                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            
+            <!--
+            <section id="news-section" class="tm-section tm-section-pad tm-bg-img">
+            <div class="tm-overlay">
+                <div class="container ie-h-align-center-fix">
+                <div class="row tm-flex-align-center">
+                    <div class="col-lg-3 col-xl-3 tm-media-title-container">
+                    <h2 class="text-uppercase tm-section-title-2" style="color: wheat; font-size: 2rem;">GLOBAL TRAVEL NEWS</h2>
+                    <h3 class="tm-color-primary tm-font-semibold tm-section-subtitle-2" style="color: whitesmoke;">Stay updated with the latest headlines from around the world.</h3>
+                    </div>
+
+                    <div class="col-lg-9 col-xl-9 mt-0 mt-sm-3">
+                    <div class="ml-auto tm-bg-white-shadow tm-pad tm-media-container" id="news-container">
+                        
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </section>
+        -->
+
+            <div class="tm-section tm-section-pad tm-bg-img tm-position-relative" id="tm-section-6">
+                <div class="container ie-h-align-center-fix">
+                    <div class="row justify-content-center">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="tm-bg-white tm-p-4" style="max-width: 600px; width: 100%;">
+                                <form action="index.html" method="post" class="contact-form">
+                                    <div class="form-group">
+                                        <input type="text" id="contact_name" name="contact_name" class="form-control" placeholder="Name" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" id="contact_email" name="contact_email" class="form-control" placeholder="Email" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="contact_subject" name="contact_subject" class="form-control" placeholder="Subject" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea id="contact_message" name="contact_message" class="form-control" rows="9" placeholder="Message" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary tm-btn-primary">Send Message Now</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+            
+            <footer class="tm-bg-dark-blue">
+                <div class="container">
+                    <div class="row">
+                        <p class="col-sm-12 text-center tm-font-light tm-color-white p-4 tm-margin-b-0">
+                        Copyright &copy; <span class="tm-current-year">2018</span> Itinery-maker.io
+                        
+                        - Design: <a rel="nofollow" href="https://github.com/Abbas-Lokhandwala" class="tm-color-primary tm-font-normal" target="_parent">Abbas-Lokhandwala</a></p>        
+                    </div>
+                </div>                
+            </footer>
+        </div>
+        
+
+        <script src="js/jquery-1.11.3.min.js"></script>
+        <script src="js/popper.min.js"></script>      
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/datepicker.min.js"></script>
+        <script src="js/jquery.singlePageNav.min.js"></script>
+        <script src="slick/slick.min.js"></script>
+        <script>
+            var map = '';
+            var center;
+
+            function initialize() {
+                var mapOptions = {
+                    zoom: 13,
+                    center: new google.maps.LatLng(-23.013104,-43.394365),
+                    scrollwheel: false
+                };
+
+                map = new google.maps.Map(document.getElementById('google-map'),  mapOptions);
+
+                google.maps.event.addDomListener(map, 'idle', function() {
+                  calculateCenter();
+              });
+
+                google.maps.event.addDomListener(window, 'resize', function() {
+                  map.setCenter(center);
+              });
+            }
+
+            function calculateCenter() {
+                center = map.getCenter();
+            }
+
+            function loadGoogleMap(){
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDVWt4rJfibfsEDvcuaChUaZRS5NXey1Cs&v=3.exp&sensor=false&' + 'callback=initialize';
+                document.body.appendChild(script);
+            } 
+
+            function setCarousel() {
+                
+                if ($('.tm-article-carousel').hasClass('slick-initialized')) {
+                    $('.tm-article-carousel').slick('destroy');
+                } 
+
+                if($(window).width() < 438){
+                    // Slick carousel
+                    $('.tm-article-carousel').slick({
+                        infinite: false,
+                        dots: true,
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    });
+                }
+                else {
+                 $('.tm-article-carousel').slick({
+                        infinite: false,
+                        dots: true,
+                        slidesToShow: 2,
+                        slidesToScroll: 1
+                    });   
+                }
+            }
+
+            function setPageNav(){
+                if($(window).width() > 991) {
+                    $('#tm-top-bar').singlePageNav({
+                        currentClass:'active',
+                        offset: 79
+                    });   
+                }
+                else {
+                    $('#tm-top-bar').singlePageNav({
+                        currentClass:'active',
+                        offset: 65
+                    });   
+                }
+            }
+
+            function togglePlayPause() {
+                vid = $('.tmVideo').get(0);
+
+                if(vid.paused) {
+                    vid.play();
+                    $('.tm-btn-play').hide();
+                    $('.tm-btn-pause').show();
+                }
+                else {
+                    vid.pause();
+                    $('.tm-btn-play').show();
+                    $('.tm-btn-pause').hide();   
+                }  
+            }
+       
+            $(document).ready(function(){
+
+                $(window).on("scroll", function() {
+                    if($(window).scrollTop() > 100) {
+                        $(".tm-top-bar").addClass("active");
+                    } else {
+                        //remove the background property so it comes transparent again (defined in your css)
+                       $(".tm-top-bar").removeClass("active");
+                    }
+                });      
+
+                // Google Map
+                loadGoogleMap();  
+
+                // Date Picker
+                const pickerCheckIn = datepicker('#inputCheckIn');
+                const pickerCheckOut = datepicker('#inputCheckOut');
+                
+                // Slick carousel
+                setCarousel();
+                setPageNav();
+
+                $(window).resize(function() {
+                  setCarousel();
+                  setPageNav();
+                });
+
+                // Close navbar after clicked
+                $('.nav-link').click(function(){
+                    $('#mainNav').removeClass('show');
+                });
+
+                // Control video
+                $('.tm-btn-play').click(function() {
+                    togglePlayPause();                                      
+                });
+
+                $('.tm-btn-pause').click(function() {
+                    togglePlayPause();                                      
+                });
+
+                // Update the current year in copyright
+                $('.tm-current-year').text(new Date().getFullYear());                           
+            });
+                document.querySelectorAll('.tm-media-1').forEach(article => {
+                    article.addEventListener('click', () => {
+                    document.querySelectorAll('.tm-media-1').forEach(a => {
+                        a.classList.remove('expanded');
+                        a.classList.add('collapsed');
+                    });
+                    article.classList.remove('collapsed');
+                    article.classList.add('expanded');
+                    });
+                });
+            function setDestination(place) {
+                const input = document.getElementById('inputCity');
+                if (input) {
+                input.value = place;
+                document.getElementById('tm-section-1')?.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+
+        </script>
+
+        <script>
+            document.querySelector('.tm-search-form').addEventListener('submit', redirectToItinerary);
+
+            async function redirectToItinerary(event) {
+                event.preventDefault();
+                showLoader();
+
+                const requiredFields = ['inputCity', 'inputCheckIn', 'inputCheckOut', 'adult', 'children', 'transport'];
+                let allFilled = true;
+
+                requiredFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el || el.value.trim() === '') {
+                    el.classList.add('is-invalid');
+                    allFilled = false;
+                } else {
+                    el.classList.remove('is-invalid');
+                }
+                });
+
+                if (!allFilled) {
+                    hideLoader();
+                    return;
+                }
+
+
+                const city = document.getElementById('inputCity').value.trim();
+                const checkIn = new Date(document.getElementById('inputCheckIn').value);
+                const checkOut = new Date(document.getElementById('inputCheckOut').value);
+                const dayCount = Math.max(1, Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)));
+                const adults = parseInt(document.getElementById('adult').value, 10);
+                const children = parseInt(document.getElementById('children').value, 10);
+
+                const images = await fetchImages(city, dayCount);
+                const itinerary = await fetchItinerary(city, checkIn, checkOut, adults, children);
+
+                sessionStorage.setItem("itineraryCity", city);
+                sessionStorage.setItem("itineraryDays", dayCount);
+                sessionStorage.setItem("unsplashImages", JSON.stringify(images));
+                sessionStorage.setItem("itineraryData", JSON.stringify(itinerary));
+                sessionStorage.setItem("checkInDate", checkIn.toISOString());
+                sessionStorage.setItem("checkOutDate", checkOut.toISOString());
+                sessionStorage.setItem("adultCount", adults);
+                sessionStorage.setItem("childCount", children);
+
+                window.location.href = 'itinerary.html';
+            }
+
+            async function fetchImages(city, count) {
+                const accessKey = 'rQdzV_q30bN4NdAPmQOKXBZRFuOw4Tm7X0mOGJmjQUA';
+                const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(city)}&per_page=${count + 1}`;
+
+                try {
+                const res = await fetch(url, {
+                    headers: {
+                    Authorization: `Client-ID ${accessKey}`
+                    }
+                });
+                const data = await res.json();
+                return data.results.map(img => ({
+                    url: img.urls.regular,
+                    alt: img.alt_description || city
+                }));
+                } catch (err) {
+                console.error("Error fetching Unsplash images:", err);
+                return Array(count).fill({ url: 'img/logo.png', alt: city });
+                }
+            }
+
+            async function fetchItinerary(city, checkIn, checkOut, adults, children) {
+            const url = "https://itinerary-backend-1.onrender.com/api/itinerary";
+
+            const res = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                city,
+                checkIn: checkIn.toISOString().split('T')[0],
+                checkOut: checkOut.toISOString().split('T')[0],
+                adults,
+                children
+                })
+            });
+
+            const data = await res.json();
+            return data;
+            }
+
+
+            function showLoader() {
+            const overlay = document.getElementById("loading-overlay");
+            if (overlay) overlay.style.display = "flex";
+            }
+
+
+            function hideLoader() {
+            const overlay = document.getElementById("loading-overlay");
+            if (overlay) overlay.style.display = "none";
+            }
+
+            
+        </script>
+
+
+
+
+        <div id="loading-overlay" style="
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.9);
+        z-index: 9999;
+        ">
+        <div style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            max-width: 90%;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            text-align: center;
+        ">
+            <video 
+            src="img/loader.mp4" 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            style="width: 100%; height: auto; border-radius: 8px;"
+            ></video>
+        </div>
+        </div>
+
+
+</body>
+</html>
