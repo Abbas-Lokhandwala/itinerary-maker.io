@@ -267,18 +267,19 @@
       card.className = "card p-2";
 
       const imageUrl = imageList[index]?.url || "img/logo.png";
-      const summary = [
-                        dayObj.morning?.summary,
-                        dayObj.afternoon?.summary,
-                        dayObj.evening?.summary
-                      ].filter(Boolean).join(" · ");
+      const summary = dayObj.summary || [
+        dayObj.morning?.summary,
+        dayObj.afternoon?.summary,
+        dayObj.evening?.summary
+      ].filter(Boolean).join(" · ");
+
 
 
       card.innerHTML = `
         <img src="${imageUrl}" class="card-img-top" alt="Day ${index + 1}" style="height: 140px; object-fit: cover;">
         <div class="card-body text-center">
           <h6 class="card-title">Day ${index + 1}</h6>
-          <p class="text-muted small">${summary}</p>
+          <p class="text-primary font-weight-semibold" style="font-size: 0.85rem; margin-top: 8px;">${summary}</p>
         </div>
       `;
 
@@ -293,10 +294,29 @@
 
     function showDetail(dayObj, dayNum) {
       document.getElementById("day-title").innerText = `Day ${dayNum}`;
-      document.getElementById("morning-text").innerText = dayObj.morning.activity;
-      document.getElementById("afternoon-text").innerText = dayObj.afternoon.activity;
-      document.getElementById("evening-text").innerText = dayObj.evening.activity;
+
+      document.getElementById("morning-text").innerHTML = `
+        <strong>Activity:</strong> ${dayObj.morning.activity}<br>
+        <strong>Location:</strong> ${dayObj.morning.location}<br>
+        <strong>What Makes It Special:</strong> ${dayObj.morning.why}<br>
+        <strong>Transportation:</strong> ${dayObj.morning.transportation}
+      `;
+
+      document.getElementById("afternoon-text").innerHTML = `
+        <strong>Activity:</strong> ${dayObj.afternoon.activity}<br>
+        <strong>Location:</strong> ${dayObj.afternoon.location}<br>
+        <strong>What Makes It Special:</strong> ${dayObj.afternoon.why}<br>
+        <strong>Transportation:</strong> ${dayObj.afternoon.transportation}
+      `;
+
+      document.getElementById("evening-text").innerHTML = `
+        <strong>Activity:</strong> ${dayObj.evening.activity}<br>
+        <strong>Location:</strong> ${dayObj.evening.location}<br>
+        <strong>What Makes It Special:</strong> ${dayObj.evening.why}<br>
+        <strong>Transportation:</strong> ${dayObj.evening.transportation}
+      `;
     }
+
 
     fullItinerary.forEach((dayObj, index) => {
       createCard(dayObj, index);

@@ -601,7 +601,6 @@ https://www.tooplate.com/view/2095-level
                 const json = await res.json();
                 const content = json.choices[0].message.content;
                 const clean = content.replace(/^```json|```$/gim, "").trim();
-                console.log("🧠 Clean OpenAI Response:", clean);
                 return JSON.parse(clean);
 
 
