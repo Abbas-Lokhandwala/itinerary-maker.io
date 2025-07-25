@@ -257,55 +257,62 @@
       <button class="btn btn-primary add-btn" onclick="addDay()">+ Add Day</button>
     </div>
   </div>
-  <script>
-    let dayCount = 0;
-    const itinerary = [];
+<script>
+  let dayCount = 0;
+  const itinerary = [];
+  const imageList = JSON.parse(sessionStorage.getItem("unsplashImages") || "[]");
 
-    function createCard(dayNum, data = {}) {
-      const container = document.getElementById("itinerary-container");
+  function createCard(dayNum, data = {}) {
+    const container = document.getElementById("itinerary-container");
+    const card = document.createElement("div");
+    card.className = "card p-2";
 
-      const card = document.createElement("div");
-      card.className = "card p-2";
-      card.innerHTML = `
-        <img src="img/img-${(dayNum % 6) + 1}.png" class="card-img-top" alt="Day ${dayNum}" style="height: 140px; object-fit: cover;">
-        <div class="card-body text-center">
-          <h6 class="card-title">Day ${dayNum}</h6>
-        </div>
-      `;
+    const imageUrl = imageList[dayNum - 1]?.url || `img/logo.png`;
 
-      card.addEventListener('click', () => {
-        document.querySelectorAll('.day-list .card').forEach(c => c.classList.remove('expanded'));
-        card.classList.add('expanded');
-        showDetail(dayNum);
-      });
+    card.innerHTML = `
+      <img src="${imageUrl}" class="card-img-top" alt="Day ${dayNum}" style="height: 140px; object-fit: cover;">
+      <div class="card-body text-center">
+        <h6 class="card-title">Day ${dayNum}</h6>
+      </div>
+    `;
 
-      container.appendChild(card);
-      itinerary.push({
-        day: dayNum,
-        morning: data.morning || "Visit a temple and enjoy local breakfast.",
-        afternoon: data.afternoon || "Explore museums or relax at the beach.",
-        evening: data.evening || "Dinner at a local restaurant and evening walk."
-      });
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".day-list .card").forEach(c => c.classList.remove("expanded"));
+      card.classList.add("expanded");
+      showDetail(dayNum);
+    });
+
+    container.appendChild(card);
+
+    itinerary.push({
+      day: dayNum,
+      morning: data.morning || "Visit a temple and enjoy local breakfast.",
+      afternoon: data.afternoon || "Explore museums or relax at the beach.",
+      evening: data.evening || "Dinner at a local restaurant and evening walk."
+    });
+  }
+
+  function showDetail(dayNum) {
+    const detail = itinerary.find(d => d.day === dayNum);
+    if (detail) {
+      document.getElementById("day-title").innerText = `Day ${dayNum}`;
+      document.getElementById("morning-text").innerText = detail.morning;
+      document.getElementById("afternoon-text").innerText = detail.afternoon;
+      document.getElementById("evening-text").innerText = detail.evening;
     }
+  }
 
-    function showDetail(dayNum) {
-      const detail = itinerary.find(d => d.day === dayNum);
-      if (detail) {
-        document.getElementById('day-title').innerText = `Day ${dayNum}`;
-        document.getElementById('morning-text').innerText = detail.morning;
-        document.getElementById('afternoon-text').innerText = detail.afternoon;
-        document.getElementById('evening-text').innerText = detail.evening;
-      }
-    }
+  function addDay() {
+    dayCount++;
+    createCard(dayCount);
+    if (dayCount === 1) showDetail(1);
+  }
 
-    function addDay() {
-      dayCount++;
-      createCard(dayCount);
-      if (dayCount === 1) showDetail(1);
-    }
-
+  // Auto-generate based on image count (which matches user’s day count)
+  for (let i = 0; i < imageList.length; i++) {
     addDay();
-    addDay();
-  </script>
+  }
+</script>
+
 </body>
 </html>

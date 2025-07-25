@@ -494,32 +494,67 @@ https://www.tooplate.com/view/2095-level
         </script>
 
         <script>
-            function redirectToItinerary(event) {
-                event.preventDefault(); // stop form for now
+            document.querySelector('.tm-search-form').addEventListener('submit', redirectToItinerary);
 
-                const requiredFields = ['inputCity', 'inputCheckIn', 'inputCheckOut', 'adult', 'children', 'transport'];
-                let allFilled = true;
+            async function redirectToItinerary(event) {
+            event.preventDefault();
 
-                requiredFields.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (!el || el.value.trim() === '') {
-                        el.classList.add('is-invalid');
-                        allFilled = false;
-                    } else {
-                        el.classList.remove('is-invalid');
-                    }
+            const requiredFields = ['inputCity', 'inputCheckIn', 'inputCheckOut', 'adult', 'children', 'transport'];
+            let allFilled = true;
+
+            requiredFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el || el.value.trim() === '') {
+                el.classList.add('is-invalid');
+                allFilled = false;
+                } else {
+                el.classList.remove('is-invalid');
+                }
+            });
+
+            if (!allFilled) return;
+
+            const city = document.getElementById('inputCity').value.trim();
+            const checkIn = new Date(document.getElementById('inputCheckIn').value);
+            const checkOut = new Date(document.getElementById('inputCheckOut').value);
+            const dayCount = Math.max(1, Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)));
+
+            const images = await fetchImages(city, dayCount);
+
+            sessionStorage.setItem("itineraryCity", city);
+            sessionStorage.setItem("itineraryDays", dayCount);
+            sessionStorage.setItem("unsplashImages", JSON.stringify(images));
+
+            window.location.href = 'itinerary.html';
+            }
+
+            async function fetchImages(city, count) {
+            const accessKey = 'rQdzV_q30bN4NdAPmQOKXBZRFuOw4Tm7X0mOGJmjQUA';
+            const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(city)}&per_page=${count}`;
+
+            try {
+                const res = await fetch(url, {
+                headers: {
+                    Authorization: `Client-ID ${accessKey}`
+                }
                 });
 
-                if (!allFilled) return; // if missing fields, don't go further
+                const data = await res.json();
 
-                // optional: store values if needed
-                // const city = document.getElementById('inputCity').value;
-                // localStorage.setItem('city', city);
-
-                // redirect
-                window.location.href = 'itinerary.html';
-        }
+                return data.results.map(img => ({
+                url: img.urls.regular,
+                alt: img.alt_description || city
+                }));
+            } catch (err) {
+                console.error("Error fetching Unsplash images:", err);
+                return Array(count).fill({
+                url: '../img/logo.png', // Fallback image
+                alt: city
+                });
+            }
+            }
         </script>
+
 
 
 
