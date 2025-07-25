@@ -352,73 +352,31 @@
       newCheckOut.setDate(currentCheckOut.getDate() + 1);
 
       try {
-        const prompt = `Create an extremely detailed travel itinerary for ${city} from ${checkIn.toISOString().split('T')[0]} to ${newCheckOut.toISOString().split('T')[0]} for ${adults} adults and ${children} children using public transportation only. Each day should include a morning, afternoon, and evening activity with extremely detailed descriptions.
-
-    Each day should also include a short one-line summary of the day’s overall theme or highlights.
-
-    For each time block (morning, afternoon, evening), include:
-    - What the activity is
-    - Where it happens (include names of places)
-    - Why it's a good fit (especially for families with kids)
-    - How to get there using public transport
-
-    All descriptions should be extremely detailed and written as a single paragraph (no questions or bullet points).
-
-    Output only a JSON array like:
-    [
-      {
-        "day": 1,
-        "summary": "...",
-        "morning": { "activity": "...", "location": "...", "why": "...", "transportation": "..." },
-        "afternoon": { ... },
-        "evening": { ... }
-      },
-      ...
-    ]`;
-
-        const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        const res = await fetch("https://itinerary-backend-1.onrender.com/api/itinerary", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer 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"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: "gpt-4o",
-            messages: [
-              {
-                role: "system",
-                content: "You are a helpful travel assistant that creates personalized day-by-day itineraries based on user input. Output must be a JSON array only, without any explanation or notes."
-              },
-              {
-                role: "user",
-                content: prompt
-              }
-            ],
-            temperature: 0.7
+            city,
+            checkIn: checkIn.toISOString().split("T")[0],
+            checkOut: newCheckOut.toISOString().split("T")[0],
+            adults,
+            children
           })
         });
 
-        const json = await res.json();
-        let content = json.choices?.[0]?.message?.content || "";
-        const clean = content.replace(/^```json|```$/gim, "").trim();
-        const newItinerary = JSON.parse(clean);
-
-        // Extract just the new day
-        const newDay = newItinerary[newItinerary.length - 1];
+        const itinerary = await res.json();
+        const newDay = itinerary[itinerary.length - 1];
 
         const newImage = await fetchSingleImage(city);
-        imageList = JSON.parse(sessionStorage.getItem("unsplashImages") || "[]"); // no const or let — use global let
+        imageList = JSON.parse(sessionStorage.getItem("unsplashImages") || "[]");
         imageList.push(newImage);
         sessionStorage.setItem("unsplashImages", JSON.stringify(imageList));
 
-        // Only after image is ready — push itinerary and render card
         fullItinerary.push(newDay);
         sessionStorage.setItem("itineraryData", JSON.stringify(fullItinerary));
         sessionStorage.setItem("checkOutDate", newCheckOut.toISOString());
 
         createCard(newDay, fullItinerary.length - 1);
-
-
       } catch (err) {
         console.error("Error adding new day:", err);
         alert("Failed to add a day. Try again.");
@@ -426,6 +384,7 @@
         hideLoader();
       }
     }
+
 
 
 
