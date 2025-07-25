@@ -352,7 +352,7 @@
       newCheckOut.setDate(currentCheckOut.getDate() + 1);
 
       try {
-        const res = await fetch("https://itinerary-backend-1.onrender.com/api/itinerary", {
+        const res = await fetch("https://itinerary-backend-1.onrender.com", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
