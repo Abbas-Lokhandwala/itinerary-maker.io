@@ -258,8 +258,33 @@
     </div>
   </div>
   <script>
-    const imageList = JSON.parse(sessionStorage.getItem("unsplashImages") || "[]");
+    let imageList = JSON.parse(sessionStorage.getItem("unsplashImages") || "[]");
     const fullItinerary = JSON.parse(sessionStorage.getItem("itineraryData") || "[]");
+    async function fetchSingleImage(city) {
+      const accessKey = "rQdzV_q30bN4NdAPmQOKXBZRFuOw4Tm7X0mOGJmjQUA";
+      const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(city)}&per_page=1`;
+
+      try {
+        const res = await fetch(url, {
+          headers: {
+            Authorization: `Client-ID ${accessKey}`
+          }
+        });
+
+        const data = await res.json();
+        const img = data.results?.[0];
+        return {
+          url: img?.urls?.regular || "img/logo.png",
+          alt: img?.alt_description || city
+        };
+      } catch (err) {
+        console.error("🔻 Unsplash image fallback triggered:", err);
+        return {
+          url: "img/logo.png",
+          alt: city
+        };
+      }
+    }
 
     function createCard(dayObj, index) {
       const container = document.getElementById("itinerary-container");
@@ -272,8 +297,6 @@
         dayObj.afternoon?.summary,
         dayObj.evening?.summary
       ].filter(Boolean).join(" · ");
-
-
 
       card.innerHTML = `
         <img src="${imageUrl}" class="card-img-top" alt="Day ${index + 1}" style="height: 140px; object-fit: cover;">
@@ -317,12 +340,147 @@
       `;
     }
 
+    async function addDay() {
+      showLoader();
+      const city = sessionStorage.getItem("itineraryCity");
+      const adults = parseInt(sessionStorage.getItem("adultCount") || "2");
+      const children = parseInt(sessionStorage.getItem("childCount") || "0");
+
+      const checkIn = new Date(sessionStorage.getItem("checkInDate"));
+      const currentCheckOut = new Date(sessionStorage.getItem("checkOutDate"));
+      const newCheckOut = new Date(currentCheckOut);
+      newCheckOut.setDate(currentCheckOut.getDate() + 1);
+
+      try {
+        const prompt = `Create an extremely detailed travel itinerary for ${city} from ${checkIn.toISOString().split('T')[0]} to ${newCheckOut.toISOString().split('T')[0]} for ${adults} adults and ${children} children using public transportation only. Each day should include a morning, afternoon, and evening activity with extremely detailed descriptions.
+
+    Each day should also include a short one-line summary of the day’s overall theme or highlights.
+
+    For each time block (morning, afternoon, evening), include:
+    - What the activity is
+    - Where it happens (include names of places)
+    - Why it's a good fit (especially for families with kids)
+    - How to get there using public transport
+
+    All descriptions should be extremely detailed and written as a single paragraph (no questions or bullet points).
+
+    Output only a JSON array like:
+    [
+      {
+        "day": 1,
+        "summary": "...",
+        "morning": { "activity": "...", "location": "...", "why": "...", "transportation": "..." },
+        "afternoon": { ... },
+        "evening": { ... }
+      },
+      ...
+    ]`;
+
+        const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer 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"
+          },
+          body: JSON.stringify({
+            model: "gpt-4o",
+            messages: [
+              {
+                role: "system",
+                content: "You are a helpful travel assistant that creates personalized day-by-day itineraries based on user input. Output must be a JSON array only, without any explanation or notes."
+              },
+              {
+                role: "user",
+                content: prompt
+              }
+            ],
+            temperature: 0.7
+          })
+        });
+
+        const json = await res.json();
+        let content = json.choices?.[0]?.message?.content || "";
+        const clean = content.replace(/^```json|```$/gim, "").trim();
+        const newItinerary = JSON.parse(clean);
+
+        // Extract just the new day
+        const newDay = newItinerary[newItinerary.length - 1];
+
+        const newImage = await fetchSingleImage(city);
+        imageList = JSON.parse(sessionStorage.getItem("unsplashImages") || "[]"); // no const or let — use global let
+        imageList.push(newImage);
+        sessionStorage.setItem("unsplashImages", JSON.stringify(imageList));
+
+        // Only after image is ready — push itinerary and render card
+        fullItinerary.push(newDay);
+        sessionStorage.setItem("itineraryData", JSON.stringify(fullItinerary));
+        sessionStorage.setItem("checkOutDate", newCheckOut.toISOString());
+
+        createCard(newDay, fullItinerary.length - 1);
+
+
+      } catch (err) {
+        console.error("Error adding new day:", err);
+        alert("Failed to add a day. Try again.");
+      } finally {
+        hideLoader();
+      }
+    }
+
+
 
     fullItinerary.forEach((dayObj, index) => {
       createCard(dayObj, index);
       if (index === 0) showDetail(dayObj, 1);
     });
+
+
+            function showLoader() {
+            const overlay = document.getElementById("loading-overlay");
+            if (overlay) overlay.style.display = "flex";
+            }
+
+
+            function hideLoader() {
+            const overlay = document.getElementById("loading-overlay");
+            if (overlay) overlay.style.display = "none";
+            }
+
   </script>
+
+  <div id="loading-overlay" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 9999;
+  ">
+    <div style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      max-width: 90%;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    ">
+      <video 
+        src="img/loader.mp4" 
+        autoplay 
+        muted 
+        loop 
+        playsinline 
+        style="width: 100%; height: auto; border-radius: 8px;"
+      ></video>
+    </div>
+  </div>
+
 
 
 </body>

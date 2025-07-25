@@ -330,16 +330,13 @@ https://www.tooplate.com/view/2095-level
         </div>
         
 
-        <script src="js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->
-        <script src="js/popper.min.js"></script>                    <!-- https://popper.js.org/ -->       
-        <script src="js/bootstrap.min.js"></script>                 <!-- https://getbootstrap.com/ -->
-        <script src="js/datepicker.min.js"></script>                <!-- https://github.com/qodesmith/datepicker -->
-        <script src="js/jquery.singlePageNav.min.js"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
-        <script src="slick/slick.min.js"></script>                  <!-- http://kenwheeler.github.io/slick/ -->
+        <script src="js/jquery-1.11.3.min.js"></script>
+        <script src="js/popper.min.js"></script>      
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/datepicker.min.js"></script>
+        <script src="js/jquery.singlePageNav.min.js"></script>
+        <script src="slick/slick.min.js"></script>
         <script>
-
-            /* Google map
-            ------------------------------------------------*/
             var map = '';
             var center;
 
@@ -496,6 +493,7 @@ https://www.tooplate.com/view/2095-level
 
             async function redirectToItinerary(event) {
                 event.preventDefault();
+                showLoader();
 
                 const requiredFields = ['inputCity', 'inputCheckIn', 'inputCheckOut', 'adult', 'children', 'transport'];
                 let allFilled = true;
@@ -510,7 +508,11 @@ https://www.tooplate.com/view/2095-level
                 }
                 });
 
-                if (!allFilled) return;
+                if (!allFilled) {
+                    hideLoader();
+                    return;
+                }
+
 
                 const city = document.getElementById('inputCity').value.trim();
                 const checkIn = new Date(document.getElementById('inputCheckIn').value);
@@ -526,6 +528,10 @@ https://www.tooplate.com/view/2095-level
                 sessionStorage.setItem("itineraryDays", dayCount);
                 sessionStorage.setItem("unsplashImages", JSON.stringify(images));
                 sessionStorage.setItem("itineraryData", JSON.stringify(itinerary));
+                sessionStorage.setItem("checkInDate", checkIn.toISOString());
+                sessionStorage.setItem("checkOutDate", checkOut.toISOString());
+                sessionStorage.setItem("adultCount", adults);
+                sessionStorage.setItem("childCount", children);
 
                 window.location.href = 'itinerary.html';
             }
@@ -605,11 +611,56 @@ https://www.tooplate.com/view/2095-level
 
 
             }
+
+            function showLoader() {
+            const overlay = document.getElementById("loading-overlay");
+            if (overlay) overlay.style.display = "flex";
+            }
+
+
+            function hideLoader() {
+            const overlay = document.getElementById("loading-overlay");
+            if (overlay) overlay.style.display = "none";
+            }
+
+            
         </script>
 
 
 
 
+        <div id="loading-overlay" style="
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.9);
+        z-index: 9999;
+        ">
+        <div style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            max-width: 90%;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            text-align: center;
+        ">
+            <video 
+            src="img/loader.mp4" 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            style="width: 100%; height: auto; border-radius: 8px;"
+            ></video>
+        </div>
+        </div>
 
 
 </body>
